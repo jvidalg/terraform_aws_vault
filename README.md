@@ -86,8 +86,9 @@ Creates the VPC, subnets, routetables, internate gateway and setups communicatio
     └── vault_sg_rules
         ├── main.tf
         └── variables.tf
-``
+```
 
+![Architecture](https://github.com/jvidalg/terraform_aws_vault/blob/assets/terraform_demo.001.png?raw=true)
 #####  Setup your AWS profile
 
 ###### Create environment variables
