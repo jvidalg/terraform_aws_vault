@@ -19,3 +19,15 @@ variable "subnets" {
 }
 
 variable "elb_sg" {}
+
+variable "vault_ips" {
+    type = "list"
+}
+
+variable "db_subnets" {
+    type = "list"
+}
+
+variable "vault_subnets" {
+    type = "list"
+}

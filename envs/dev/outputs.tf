@@ -40,3 +40,7 @@ output "Public Security Group" {
 output "ELB URL" {
   value = "${module.application.lb_url}"
 }
+
+output "Vault Consul Subnet IPs" {
+  value = "${join(", ", module.networking.consul_vault_ips)}"
+}

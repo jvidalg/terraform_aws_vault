@@ -83,7 +83,7 @@ resource "aws_launch_configuration" "launch_configuration" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "aws_security_group" "lc_security_group" {
-  name_prefix = "${var.cluster_name} this is causing issue"
+  name_prefix = "${var.cluster_name}"
   description = "Security group for the ${var.cluster_name} launch configuration"
   vpc_id      = "${var.vpc_id}"
 

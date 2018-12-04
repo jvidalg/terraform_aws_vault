@@ -62,4 +62,9 @@ variable "vault_cidrs" {
 
 variable "allowed_inbound_security_group_count" {}
 
-variable "user_data" {}
+#variable "user_data" {}
+
+##------consul variables
+
+variable "consul_cluster_name" {}
+variable "consul_cluster_size" {}

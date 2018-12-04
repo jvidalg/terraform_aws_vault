@@ -38,8 +38,8 @@ variable "consul_cluster_name" {
 variable "vault_cluster_size" {}
 
 variable "consul_cluster_size" {
-  description = "The number of Consul server nodes to deploy. We strongly recommend using 3 or 5."
-  default     = 2
+  #description = "The number of Consul server nodes to deploy. We strongly recommend using 3 or 5."
+  #default     = 3
 }
 
 variable "vault_instance_type" {

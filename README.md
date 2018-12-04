@@ -109,6 +109,21 @@ aws_secret_access_key= " >> $HOME/.aws/credentials
 This AWS AMI is required for the Private Vault cluster from this demo, you must follow the steps from repo [ec2-ami-vault-consul](https://github.com/jvidalg/ec2-ami-vault-consul)
 If you do not have your instances built from this or another AMI containing Vault and Consul pre-installed and configured, your cluster will not operate as this demo is designed.
 
+#####  Build your customized environment
+
+You will need to set the terraform-state-storage-s3 & dynamodb-terraform-state-lock names in your main.tf from the environment you will be working on. for example envs/dev/main.tf
+
+```hcl
+terraform {
+  backend "s3" {
+    bucket         = "yourDesiredBucketName"
+    key            = "envs/dev/terraform.tfstate"
+    dynamodb_table = "yourDesiredDBLockName"
+    region         = "us-east-1"
+  }
+}
+```
+
 #####  Build remote state S3 bucket and dynamo DB for locking
 
 Before you build your bucket and DB for the state file management, you should edit the name of the S3 bucket by going to management/terraform_backend/main.tf

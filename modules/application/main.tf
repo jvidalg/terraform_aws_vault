@@ -20,11 +20,18 @@ resource "aws_key_pair" "tf_auth" {
 }
 
 data "template_file" "user-init" {
-  count    = 2
+  #count    = 2
   template = "${file("${path.module}/userdata.tpl")}"
 
   vars {
-    firewall_subnets = "${element(var.subnet_ips, count.index)}"
+
+    #firewall_subnets = "${element(var.subnet_ips, count.index)}"
+    #subnets = "${var.subnet_ips}"
+    subnets = "${join(", ", var.subnet_ips)}"
+    vault_ips = "${join(", ", var.vault_ips)}"
+    db_subnets = "${join(", ", var.db_subnets)}"
+    vault_subnets = "${join(", ", var.vault_subnets)}"
+
   }
 }
 
@@ -50,7 +57,8 @@ resource "aws_launch_configuration" "tf_alc" {
   instance_type   = "${var.instance_type}"
   security_groups = ["${var.security_group}"]
   key_name        = "${aws_key_pair.tf_auth.id}"
-  user_data       = "${data.template_file.user-init.*.rendered[count.index]}"
+  user_data       = "${data.template_file.user-init.rendered}"
+  #user_data       = "${data.template_file.user-init.*.rendered[count.index]}"
 
   lifecycle {
     create_before_destroy = true
@@ -60,8 +68,6 @@ resource "aws_launch_configuration" "tf_alc" {
 resource "aws_autoscaling_group" "tf_asg" {
   launch_configuration = "${aws_launch_configuration.tf_alc.id}"
   vpc_zone_identifier  = ["${var.subnets}"]
-
-  #vpc_zone_identifier  = ["${element(var.subnets, 0)}", "${element(var.subnets, 1)}"]
 
   min_size          = 2
   max_size          = 10

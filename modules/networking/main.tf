@@ -39,6 +39,20 @@ resource "aws_default_route_table" "tf_private_rt" {
   }
 }
 
+resource "aws_route_table" "tf_vault_rt" {
+  vpc_id = "${aws_vpc.tf_vpc.id}"
+  tags {
+    Name = "tf_vault_private"
+  }
+########################################################################################
+# The below routing is enabled only for demo purposes, this route should not exist in private module
+########################################################################################
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = "${aws_internet_gateway.tf_internet_gateway.id}"
+  }
+}
+
 #### Public Subnet #######
 
 resource "aws_subnet" "tf_public_subnet" {
@@ -146,8 +160,9 @@ resource "aws_subnet" "tf_vault_subnet" {
 resource "aws_route_table_association" "tf_vault_assoc" {
   count          = "${aws_subnet.tf_vault_subnet.count}"
   subnet_id      = "${aws_subnet.tf_vault_subnet.*.id[count.index]}"
-  route_table_id = "${aws_default_route_table.tf_private_rt.id}"
+  route_table_id = "${aws_route_table.tf_vault_rt.id}"
 }
+
 
 #resource "aws_security_group" "tf_vault_sg" {
 #  name        = "tf_vault_sg"

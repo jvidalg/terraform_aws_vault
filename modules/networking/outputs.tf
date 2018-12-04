@@ -38,3 +38,7 @@ output "vault_sg" {
 output "vault_subnets" {
   value = "${aws_subnet.tf_vault_subnet.*.id}"
 }
+
+output "consul_vault_ips" {
+  value = "${aws_subnet.tf_vault_subnet.*.cidr_block}"
+}
