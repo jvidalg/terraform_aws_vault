@@ -56,7 +56,7 @@ resource "aws_route_table" "tf_vault_rt" {
 #### Public Subnet #######
 
 resource "aws_subnet" "tf_public_subnet" {
-  count                   = 2
+  count                   = "${var.subnet_count}"
   vpc_id                  = "${aws_vpc.tf_vpc.id}"
   cidr_block              = "${var.public_cidrs[count.index]}"
   map_public_ip_on_launch = true
@@ -106,7 +106,7 @@ resource "aws_security_group" "tf_public_sg" {
 #### DB Subnet #######
 
 resource "aws_subnet" "tf_db_subnet" {
-  count                   = 2
+  count                   = "${var.subnet_count}"
   vpc_id                  = "${aws_vpc.tf_vpc.id}"
   cidr_block              = "${var.db_cidrs[count.index]}"
   map_public_ip_on_launch = true
@@ -146,7 +146,7 @@ resource "aws_security_group" "tf_db_sg" {
 #### Vault Subnet #######
 
 resource "aws_subnet" "tf_vault_subnet" {
-  count                   = 2
+  count                   = "${var.subnet_count}"
   vpc_id                  = "${aws_vpc.tf_vpc.id}"
   cidr_block              = "${var.vault_cidrs[count.index]}"
   map_public_ip_on_launch = true

@@ -61,6 +61,7 @@ variable "vault_cidrs" {
 }
 
 variable "allowed_inbound_security_group_count" {}
+variable "subnet_count" {}
 
 #variable "user_data" {}
 

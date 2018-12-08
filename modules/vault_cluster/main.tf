@@ -134,7 +134,8 @@ resource "aws_security_group_rule" "allow_all_outbound" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 module "security_group_rules" {
-  source = "../vault_sg_rules"
+  #source = "../vault_sg_rules"
+  source = "git@github.com:jvidalg/terraform-modules.git//aws/vault-sg-rules"
 
   security_group_id                    = "${aws_security_group.lc_security_group.id}"
   allowed_inbound_cidr_blocks          = ["${var.allowed_inbound_cidr_blocks}"]

@@ -4,6 +4,8 @@ variable "key_name" {}
 
 variable "public_key_path" {}
 
+#variable "public_key" {}
+
 variable "subnet_ips" {
   type = "list"
 }

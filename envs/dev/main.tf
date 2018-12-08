@@ -21,6 +21,7 @@ module "networking" {
   db_cidrs     = "${var.db_cidrs}"
   accessip     = "${var.accessip}"
   vault_cidrs  = "${var.vault_cidrs}"
+  subnet_count = "${var.subnet_count}"
 
   #lb_instances  = "${module.application.web_instances}"
 }
@@ -61,23 +62,6 @@ module "database" {
   enable_replica   = "${var.enable_replica}"
 }
 
-## Vault Cluster (dependency of private)-----------------------------------
-
-#module "vault-cluster" {
-#  source = "../../modules/vault_cluster"
-
-#  vpc_id                               = "${module.networking.vpc_id}"
-#  cluster_name                         = "${var.vault_cluster_name}"
-#  instance_type                        = "${var.vault_instance_type}"
-#  cluster_size                         = "${var.vault_cluster_size}"
-#  ami_id                               = "${var.vault_consul_ami}"
-#  allowed_inbound_cidr_blocks          = "${var.public_cidrs}"
-#  allowed_inbound_security_group_ids   = ["${module.networking.db_sg}", "${module.networking.public_sg}"]
-#  allowed_inbound_security_group_count = "${var.allowed_inbound_security_group_count}"
-#  user_data                            = "${var.user_data}"
-#  ssh_key_name                         = "${var.key_name}"
-#}
-
 ## Vault Private Cluster --------------------------------------------------
 
 module "vault-private" {
@@ -91,7 +75,8 @@ module "vault-private" {
 
   consul_cluster_name = "${var.consul_cluster_name}"
   consul_cluster_size = "${var.consul_cluster_size}"
-
+## The CIDR block for all traffic is only for demo purposes,
+## it should not be present in vault private cluster.
   allowed_inbound_cidr_blocks          = ["${var.public_cidrs}", "${var.db_cidrs}", "0.0.0.0/0"]
   allowed_inbound_security_group_ids   = ["${module.networking.db_sg}", "${module.networking.public_sg}"]
   allowed_inbound_security_group_count = "${var.allowed_inbound_security_group_count}"

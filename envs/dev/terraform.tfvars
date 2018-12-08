@@ -14,6 +14,7 @@ vault_cidrs = [
     "172.16.5.0/24",
     "172.16.6.0/24"
     ]
+subnet_count = 2
 #-----Application----
 
 key_name = "pub_key"

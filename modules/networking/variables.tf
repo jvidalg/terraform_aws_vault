@@ -15,3 +15,5 @@ variable "vault_cidrs" {
 }
 
 variable "accessip" {}
+
+variable "subnet_count" {}
