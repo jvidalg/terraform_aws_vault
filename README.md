@@ -177,3 +177,55 @@ If above commands are successful, run the plan and apply:
 terraform plan
 terraform apply
 ```
+
+## TERRAFORM ENTERPRISE
+
+If you are going to be running this project using Terraform Enterprise, several steps will vary.
+
+#### Setup new VCS
+
+Once you have created your organization and workspaces, a [VCS Provider](https://app.terraform.io/app/terraform_demo/settings/version-control/add) should be added, in this case will be github.
+
+Your workspace has to be associated to the github VCS, you can do this by opening your workspace -> Settings -> Version Control -> github.
+Select the repository from the drop-down, the VPC Branch: "master", and include submodules on clone. Then save.
+
+#### Add a private key to pull repositories from github.
+
+In order to allow terraform enterprise to access your github repository and perform pulls, you need to setup a private key for which its public key is registered in github.
+
+On the main menu bar at the top, click on Settings -> Manage SSH Keys -> Add the name and private key.
+Go back to your working workspace, click on Settings -> SSH Keys -> Under the drop-down select the key name your just added in previous steps. Click on Update.
+
+#### Generate token for TFE CLI
+
+In Terraform Enterprise there are values that you need to setup although you had set them up in terraform.tfvars(which might not be a good idea to push it to your public repository due to the sensitive data it can include), to avoid setting up one at a time or manually through the terraform console, it is recommended to generate a [Token](https://www.terraform.io/docs/enterprise/users-teams-organizations/users.html#api-tokens):
+
+Click on your User Settings(top right corner) -> Tokens -> Add description and generate.
+
+#### Upload terraform.tfvars to your workspace
+
+Install the [terraform enterprise CLI](https://www.terraform.io/docs/enterprise/api/index.html):
+
+```bash
+git clone git@github.com:hashicorp/tfe-cli.git
+cd tfe-cli/bin
+echo "export PATH=$PWD:\$PATH" >> ~/.bash_profile
+source ~/.bash_profile
+```
+Export your token from last step:
+
+```bash
+export ATLAS_TOKEN="${YOUR_TOKEN}"
+```
+
+```bash
+tfe pushvars -name ${YOUR_ENV_PATH} -var-file terraform.tfvars
+```
+Sample:
+
+```bash
+tfe pushvars -name /Users/theuser/terraform-aws/envs/dev -var-file terraform.tfvars
+```
+
+#### Launch Queue Plan
+#### Enable Destroy in Queue Plan
