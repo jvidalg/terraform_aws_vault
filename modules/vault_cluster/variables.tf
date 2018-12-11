@@ -49,12 +49,12 @@ variable "cluster_size" {
 
 variable "enable_auto_unseal" {
   description = "(Vault Enterprise only) Emable auto unseal of the Vault cluster"
-  default     = false
+  default     = true
 }
 
 variable "auto_unseal_kms_key_arn" {
   description = "(Vault Enterprise only) The arn of the KMS key used for unsealing the Vault cluster"
-  default     = ""
+  default     = "*"
 }
 
 variable "subnet_ids" {
@@ -187,7 +187,7 @@ variable "ssh_port" {
 
 variable "enable_s3_backend" {
   description = "Whether to configure an S3 storage backend in addition to Consul."
-  default     = false
+  default     = true
 }
 
 variable "s3_bucket_name" {
@@ -203,8 +203,7 @@ variable "s3_bucket_tags" {
 
 variable "force_destroy_s3_bucket" {
   description = "If 'configure_s3_backend' is enabled and you set this to true, when you run terraform destroy, this tells Terraform to delete all the objects in the S3 bucket used for backend storage. You should NOT set this to true in production or you risk losing all your data! This property is only here so automated tests of this module can clean up after themselves. Only used if 'enable_s3_backend' is set to true."
-  default     = false
+  default     = true
 }
 
 #variable "public_sg" {}
-
